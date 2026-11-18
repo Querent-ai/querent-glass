@@ -31,6 +31,7 @@ section:nth-of-type(odd) .dev{direction:rtl}.dev>*{direction:ltr}
 .txt p{color:#a8acbf;font:16px/1.55 ui-sans-serif,system-ui,-apple-system,sans-serif;max-width:360px}
 .sz{display:inline-block;margin-top:18px;border:1px solid #23273a;border-radius:999px;padding:4px 12px;color:#6d7390;font-size:11px;letter-spacing:.2em}
 @media(max-width:760px){.dev{grid-template-columns:1fr;gap:10px;text-align:center}.dev canvas{max-height:46vh}.txt p{margin:0 auto}}
+.sz.go{color:#f2c46d;border-color:#5a4a2a;text-decoration:none;transition:background .25s,color .25s}.sz.go:hover{background:#f2c46d;color:#000}
 .end{text-align:center}
 .end h2{font:600 clamp(28px,5vw,48px)/1.1 ui-sans-serif,system-ui,sans-serif;letter-spacing:-.02em}
 .end p{color:#8a90a6;margin:14px 0 30px;font:15px/1.5 ui-sans-serif,system-ui,sans-serif}
@@ -62,6 +63,8 @@ section:nth-of-type(odd) .dev{direction:rtl}.dev>*{direction:ltr}
 <section data-scale="45 CM"><div class="dev"><canvas data-d="keys"></canvas><div class="txt"><div class="n">06 · KEYS</div><h2>Built for builders.</h2><p>A keyboard for people who write the next Verse. Every keystroke is a field event.</p><span class="sz">~45 CM</span></div></div></section>
 <section data-scale="1 M"><div class="dev"><canvas data-d="parametron"></canvas><div class="txt"><div class="n">07 · PARAMETRON</div><h2>Compute that moves matter.</h2><p>A substrate that runs without silicon or oil, built to drive physical systems at any scale.</p><span class="sz">~1 M</span></div></div></section>
 <section data-scale="1.8 M"><div class="dev"><canvas data-d="holo"></canvas><div class="txt"><div class="n">08 · HOLOGRAPHIC PERSONAS</div><h2>Presence, at human scale.</h2><p>People and Personas in light, standing in the room with you.</p><span class="sz">~1.8 M</span></div></div></section>
+
+<section id="club" data-scale="ħ/2"><div class="dev"><canvas data-d="club"></canvas><div class="txt"><div class="n">09 · QUANTUM CLUB</div><h2>Feel the field.</h2><p>quester → querent → quantum. A passive Helmholtz field keyed to a secret born in your own browser. No one else will ever see the flow you see.</p><a class="sz go" href="/club/">ENTER THE CLUB ▸</a></div></div></section>
 
 <section class="end" data-scale="∞"><div>
  <h2>Built in Channel 0.</h2>
@@ -133,6 +136,15 @@ parametron(g,S,t){const N=9,c=S/2,sp=S*.085,o=c-sp*(N-1)/2;g.globalCompositeOper
   if(i<N-1){g.strokeStyle=`rgba(${ph[i+1][j]==s?col:'60,66,92'},.35)`;g.lineWidth=1;g.beginPath();g.moveTo(x,y);g.lineTo(x+sp,y);g.stroke()}
   if(j<N-1){g.strokeStyle=`rgba(${ph[i][j+1]==s?col:'60,66,92'},.35)`;g.beginPath();g.moveTo(x,y);g.lineTo(x,y+sp);g.stroke()}
   const a=t*.006+(s?Math.PI:0);g.strokeStyle=`rgba(${col},.85)`;g.lineWidth=1.5;g.beginPath();g.arc(x,y,sp*.22,a,a+Math.PI);g.stroke();glow(g,x,y,sp*.45,col,.18)}},
+club(g,S,t){const c=S/2,M=t*.0003;g.globalCompositeOperation='lighter';glow(g,c,c,S*.45,ICE,.1);
+ const V=[[.34,.4,1.2],[.66,.58,-1.2],[.52,.24,-.9],[.42,.72,.8]],Q=[[.24,.62,.7],[.76,.3,-.7]];
+ const vel=(x,y)=>{let vx=0,vy=0;for(const[ax,ay,q]of V){const X=ax+.04*Math.sin(M+q*3),Y=ay+.04*Math.cos(M*1.3+q*2),dx=x-X,dy=y-Y,e=q*Math.exp(-(dx*dx+dy*dy)/.018);vx+=-dy*e;vy+=dx*e}
+  for(const[ax,ay,q]of Q){const dx=x-ax,dy=y-ay,e=q*Math.exp(-(dx*dx+dy*dy)/.03);vx+=dx*e*.5;vy+=dy*e*.5}return[vx,vy]};
+ g.lineWidth=1.2;for(let i=0;i<300;i++){let x=.1+.8*((i*.6180339)%1),y=.1+.8*((i*.7548776+.13)%1);const life=((t*.00035+i*.37)%1),n=6+Math.floor(life*40);
+  const pts=[];for(let s=0;s<n;s++){const[vx,vy]=vel(x,y),m=Math.hypot(vx,vy)||1;x+=vx/m*.007;y+=vy/m*.007;if(s>n-14)pts.push([x,y,Math.min(1,m*25)])}
+  const r=Math.hypot(x-.5,y-.5);if(r>.43)continue;const col=pts[pts.length-1][2]>.55?'255,154,213':ICE,a=.55*Math.sin(life*Math.PI);
+  g.strokeStyle=`rgba(${col},${a})`;g.beginPath();g.moveTo(pts[0][0]*S,pts[0][1]*S);for(const p of pts)g.lineTo(p[0]*S,p[1]*S);g.stroke()}
+ g.strokeStyle=`rgba(${GOLD},.5)`;g.lineWidth=1;g.beginPath();g.arc(c,c,S*.44,0,TAU);g.stroke()},
 holo(g,S,t){const c=S/2,H=S*.78,top=c-H/2,R=mb32(42);g.globalCompositeOperation='lighter';
  const pts=[];const add=(f,n)=>{for(let i=0;i<n;i++){const p=f(R());pts.push(p)}};const hs=H/8;
  add(u=>{const a=u*TAU,r=Math.sqrt(R());return[c+Math.cos(a)*hs*.5*r,top+hs*.6+Math.sin(a)*hs*.6*r]},140);
